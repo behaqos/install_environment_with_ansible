@@ -1,0 +1,26 @@
+# Указал в pipeline variables ANSIBLE_CONFIG путь к локальному ansible.cfg, иначе берёт глобальный.
+image: python:3.8
+ 
+pipelines:
+  branches:
+    # deploy only when pushing to the master branch
+    develop:
+      - step:
+          name: Install PostgreSQL and Redis to stage
+          # this is the name of the Bitbucket Deployment
+          deployment: Staging
+          # caches:
+          #   - pip
+          script:
+            - echo "TEST STRING"
+            # - export PASS = $VAULT_ANSIBLE
+            # install Ansible
+            - pip install ansible
+            # go into the ansible directory
+            # in this same repository
+            - cd playbooks
+            # perform the actual deploy
+            - ansible-playbook softwares/setup_postgresql.yml
+            - ansible-playbook softwares/setup_redis.yml
+            - ansible-playbook softwares/install_dependences.yml
+            

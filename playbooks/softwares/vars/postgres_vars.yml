@@ -1,0 +1,4 @@
+db_user: root
+db_password: vatanict
+db_name: ansible_test
+ansible_python_interpreter: /usr/bin/python3
